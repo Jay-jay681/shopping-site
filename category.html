@@ -1,0 +1,131 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Men section</title>
+    <link rel="stylesheet" href="{% static 'homepage.css.' %}">
+</head>
+<style>
+
+.mensection{
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.men_outer{
+    display: grid;
+    grid-template-columns: repeat(auto-fit , minmax(250px, 1fr));
+    gap: 30px;
+}
+.card{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.card_image{
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+.card_link{
+    display: flex;
+    gap: 20px;
+}
+.card_link a{
+    text-decoration: none;
+    color: black;
+    border: 1px solid black;
+    padding: 10px 20px;
+    border-radius: 20px;
+}
+.card_link a:last-child{
+    text-decoration: none;
+    color: white;
+    background-color: black;
+    padding: 10px 20px;
+    border-radius: 20px;
+}
+.card_link a:hover{
+    background-color: black;
+    color: white;
+}
+.card_link a:hover:last-child{
+    border: none;
+    background-color: white;
+    color: black;
+}
+.second_layer{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.top_bar{
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: aliceblue;
+    color: black;
+}
+
+.top_bar p{
+    font-size: 0.2rem;
+}
+
+</style>
+<body>
+     <!-- HEADER STYLING -->
+    <header>
+    <nav class="navbar">
+        <h1 class="logo">
+            LOGO
+        </h1>
+
+         <ul class="nav_link">
+            <li><a href="{% url 'home' %}" class="hide">HOME</a></li>
+            {% if request.user.is_authenticated %}
+            <p>Hello, {{request.user}}</p>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+            {% else %}
+            <li><a href="{% url 'signup' %}">Sign up</a></li>
+            <li><a href="{% url 'login' %}">Login</a></li>
+            {% endif %}
+        </ul>
+
+        <div class="search_container">
+            <input type="text" placeholder="Search here" name="query">
+        </div>
+    </nav>   
+    </header>
+    <!-- END HEADER -->
+     {% for categories in category%}
+            {{category.name}}
+            {% endfor%}
+     {% for item in items %}
+     <section class="mensection">
+        <div class="men_outer">
+            <a href="{% url 'details' item.id%}">
+            <div class="card">
+                <p class="top_bar">New</p>
+                <div class="card_image"><img src="https://www.panaprium.com/blogs/i/dress-masculine-man?srsltid=AfmBOop-c7VFKjDfd5KSc9nnXJ8fkToTxBIVXqrdqt88aNvh5RsZoS96" alt=""></div>
+                <div class="second_layer">
+                    <h2>{{ item.name }}</h2>
+                    <p>{{ item.price}}$</p>
+                </div>
+                <div class="card_link">
+                    <a href="#">add to cart</a>
+                    <a href="#">Buy now</a>
+                </div>
+            </div>
+            </a>
+        </div>
+     </section>
+     {% endfor %}
